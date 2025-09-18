@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Node {
-    int valor;
+    public int valor;
     List<Node> filhos;
 
     public Node(int valor){
