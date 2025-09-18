@@ -29,5 +29,7 @@ public class Main {
         }else{
             System.out.println("Fake");
         }
+
+        System.out.println(ag.depth(filho1_1));
     }
 }

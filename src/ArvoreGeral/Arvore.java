@@ -105,4 +105,24 @@ public class Arvore {
 
         return v;
     }
+
+    public int depth(Node v){
+        if(raiz.equals(v)){
+            return 0;
+        }
+
+        int count = 1;
+        
+        
+    }
+
+    public int height(){
+
+        
+        return 0;
+    }
+
+    public int height(Node v){
+        return 0;
+    }
 }
