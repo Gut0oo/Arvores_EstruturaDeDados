@@ -106,14 +106,19 @@ public class Arvore {
         return v;
     }
 
-    public int depth(Node v){
-        if(raiz.equals(v)){
+    public int depth(Node atual, Node v){
+        if(atual.equals(v)){
             return 0;
         }
 
-        int count = 1;
+        for(Node filho : atual.filhos){
+            int count = depth(filho, v);
+            if(count >= 0){
+                return count + 1;
+            }
+        }
         
-        
+        return -1;
     }
 
     public int height(){
