@@ -85,16 +85,34 @@ public class BinarySearchTree extends BinaryTree{
         }
     }
 
-    public BNode deleteInterativo(){
+    //public BNode deleteInterativo(int valor){}
+    //public BNode deleteRecursivo(){}
+
+    public void exibirPosOrdem(BNode atual){
+        if(atual != null){
+            exibirPosOrdem(atual.left());
+            exibirPosOrdem(atual.right());
+            System.out.println(atual.getInfo() + " ");   
+        }
 
     }
 
-    public BNode deleteRecursivo(){
-
+    public void exibirPreOrdem(BNode atual){
+        if(atual != null){
+            System.out.println(atual.getInfo() + " ");
+            exibirPreOrdem(atual.left());
+            exibirPosOrdem(atual.right());
+        }
     }
 
-    public void
+    public void exibirEmOrdem(BNode atual){
+        if(atual != null){
+            exibirEmOrdem(atual.left());
+            System.out.println(atual.getInfo() + " "); 
+            exibirEmOrdem(atual.right());
+        }
 
+    }
 
 
 }
