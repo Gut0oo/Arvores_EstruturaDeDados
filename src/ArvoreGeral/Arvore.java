@@ -3,77 +3,65 @@ package ArvoreGeral;
 import java.util.List;
 
 public class Arvore {
-    private Node raiz;
-
-    public Arvore(int valor){
-        this.raiz = new Node(valor);
+    Node raiz;
+    public Arvore(Node raiz){
+        this.raiz = raiz;
     }
 
     public Node root(){
-        if(raiz == null){
-            return null;
-        }
         return raiz;
     }
 
-    //****** Métodos de acesso ******
-    public Node parent(Node atual, Node v){
-        if(atual.equals(v) || atual == null){ //Caso o Node V seja a raiz ou não tenha nenhum Node na raiz
+    public Node parent(Node v){
+        if(v == raiz){
             return null;
         }
 
-        if(atual.filhos.contains(v)){ // Caso o Node v seja o filho da raiz
+        Node atual = raiz;
+
+        if(atual.filhos.contains(v)){
             return atual;
         }
 
-        //Caso não tenha encontrado direto
         for(Node filho : atual.filhos){
-            Node resultado = parent(filho, v);
-            if(resultado != null){
-                return resultado;
-            }
-        }
-
-        return null; //Caso não ache
-    }
-
-    public List<Node> children(Node atual, Node v){
-        if(atual.equals(v)){
-            return v.filhos;
-        }
-
-        for(Node filho : atual.filhos){
-            List<Node> resultado = children(filho, v);
-            if(resultado != null){
-                return resultado;
+            if(filho.filhos.contains(v)){
+                return filho;
             }
         }
 
         return null;
     }
 
-    //****** Métodos de Consulta ******
-    public boolean isInternal(Node v) {
-        return !v.filhos.isEmpty();
+    public List<Node> children(Node v){
+        if(v.ehFolha()){
+            return null;
+        }
+
+        return v.filhos;
+    }
+
+    public boolean isInternal(Node v){
+        return v.filhos != null;
     }
 
     public boolean isExternal(Node v){
-        return v.filhos.isEmpty();
+        return v.filhos == null;
     }
 
     public boolean isRoot(Node v){
-        return v.equals(raiz);
+        return v.pai == null;
     }
 
-    //****** Métodos de Genéricos ******
-    public int size(Node atual){
-        if(atual == null){
+    public int size(){
+        if(raiz == null){
             return 0;
         }
+        Node atual = raiz;
+
         int count = 1;
 
         for(Node filho : atual.filhos){
-            count += size(filho);
+            count += size();
         }
 
         return count;
@@ -83,51 +71,58 @@ public class Arvore {
         return raiz == null;
     }
 
-    public Node replace(Node v, Node e){
-        if (v == null || e == null)
+    public String replace(Node v, Node e){
+        if(v == null || e == null){
             return null;
-
-        e.filhos = v.filhos;
-        v.filhos = null;
-
-        if(v.equals(raiz)){
-            this.raiz = e;
-            return v;
         }
 
-        Node pai = parent(raiz, v);
-        if (pai == null)
-            return null;
-
-        pai.removerFilho(v);
-        pai.addFilho(e);
+        Node pai_v = v.pai; //guarda o pai de v
+        e.filhos = v.filhos;
 
 
-        return v;
+        pai_v.removerFilho(v); //v deixa de ser filho do nó pai
+        v.pai = null; //desconecta do nó pai
+        v.filhos = null;
+
+        pai_v.addFilho(e);
+        e.pai = pai_v; //e se torna filho de pai_v
+
+        return v.valor;
     }
 
-    public int depth(Node atual, Node v){
-        if(atual.equals(v)){
+    public int depth(Node v){
+        if(v == raiz){
             return 0;
         }
 
-        for(Node filho : atual.filhos){
-            int count = depth(filho, v);
-            if(count >= 0){
-                return count + 1;
-            }
+        int count = 1;
+        Node atual = v;
+
+        while(atual.pai != raiz){
+            count++;
+            atual = atual.pai;
         }
-        
-        return -1;
-    }
 
-    public int height(){
-
-        
-        return 0;
+        return count;
     }
 
     public int height(Node v){
-        return 0;
+        if(v == null){
+            return 0;
+        }
+        int count = 0;
+
+        for(Node atual : v.filhos){
+            int result = height(atual);
+
+            if(result > count){
+                count = result;
+            }
+        }
+        return count + 1;
+    }
+
+    public int height(){
+        return height(raiz);
     }
 }

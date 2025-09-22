@@ -4,27 +4,26 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Node {
-    public int valor;
+    String valor;
     List<Node> filhos;
+    Node pai;
 
-    public Node(int valor){
+    public Node(String valor){
         this.valor = valor;
         this.filhos = new ArrayList<>();
     }
 
     public void addFilho(Node filho){
+        filho.pai = this;
         filhos.add(filho);
     }
 
     public void removerFilho(Node filho){
         filhos.remove(filho);
+        filho.pai = null;
     }
 
     public boolean ehFolha(){
-        return filhos.isEmpty();
-    }
-
-    public int contagemFilhos(){
-        return filhos.size();
+        return filhos == null;
     }
 }

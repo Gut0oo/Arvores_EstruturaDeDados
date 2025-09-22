@@ -1,66 +1,56 @@
 package BST;
 
-public class BNode implements Comparable<BNode>{
+public class BNode {
     private int info;
-    private BNode parent, left, right;
+    private BNode esq, dir, pai;
 
-    public BNode(int info, BNode parent){
+    public BNode(int info){
         this.info = info;
-        this.parent = parent;
-    }
-
-    public int getInfo() {
-        return info;
     }
 
     public int degree(){
         int count = 0;
 
-        if(left != null){
-            count ++;
+        if(esq != null){ //verifica se tem filho na esquerda
+            count++;
         }
 
-        if(right != null){
-            count ++;
+        if(dir != null){ //verifica se tem filho na direita
+            count++;
         }
 
         return count;
     }
 
-    public BNode left(){
-        if(this.left == null){
-            return null;
-        }
-
-        return this.left;
+    public void setInfo(int info){
+        this.info = info;
     }
 
-    public BNode right(){
-        if(this.right == null){
-            return null;
-        }
-
-        return this.right;
+    public int getInfo(){
+        return info;
     }
 
-    public void setLeft(BNode v){
-        this.left = v;          //novo valor filho
-        if(v != null){          //Verifica se o nó passado não é null
-            v.parent = this;    // Aqui fala que o pai do nó v é o objeto que chamou a função (this)
-        }
+    public void setEsq(BNode esq){
+        this.esq = esq;
     }
 
-    public void setRight(BNode v){
-        this.right = v;
-
-        if(v != null){
-            v.parent = this;    //Esse this faz referência ao nó que chamou o método
-        }
+    public BNode getEsq(){
+        return esq;
     }
 
-    @Override
-    public int compareTo(BNode outro) {
-        return Integer.compare(this.info, outro.info);
+    public void setDir(BNode dir){
+        this.dir = dir;
     }
 
+    public BNode getDir(){
+        return dir;
+    }
+
+    public void setPai(BNode pai) {
+        this.pai = pai;
+    }
+
+    public BNode getPai() {
+        return pai;
+    }
 }

@@ -1,61 +1,67 @@
 package BST;
 
 public class BinaryTree {
-    private BNode root;
+    BNode raiz;
 
-    public BinaryTree(){
-        this.root = null;
-    }
+    public BinaryTree(){}
 
-    public BinaryTree(BNode root){
-        this.root = root;
-    }
-
-    // ***** Métodos de acesso *****
     public BNode root(){
-        return root;
+        if(raiz == null){
+            return null;
+        }
+        return raiz;
     }
 
-    public void setRoot(BNode root){
-        this.root = root;
-    }
+    public boolean isFull(BNode v){
+        if(v == null){ //Arvore vazia == full
+            return true;
+        }
 
-    // ***** Métodos de consulta *****
-    public boolean isComplete(){
+        if(v.getEsq() == null && v.getDir() == null){ //Se é folha
+            return true;
+        }
 
-        return false;
-    }
-
-    public boolean isFull(BNode atual){
-        if(isEmpty()){
+        if(v.getEsq() == null || v.getDir() == null){ //Só um filho
             return false;
         }
 
-        if(atual == null){
-            return true;
-        }
+        return isFull(v.getDir()) && isFull(v.getEsq()); //Verifica recursivamente os filhos
+    }
 
-        if(atual.left() == null && atual.right() == null){
-            return true;
-        }
-
-        if(atual.left() != null && atual.right() != null){
-            return isFull(atual.left()) && isFull(atual.right());
-        }
-
-        return false;
+    public boolean isComplete(BNode v){
+        return true;
     }
 
     public boolean isEmpty(){
-        return root() == null;
+        return raiz == null;
     }
 
-    // ***** Métodos genéricos *****
-    public int height(BNode atual){
-        if(isEmpty()){
-            return -1;
+    public int height(BNode v){
+        if(v == null){
+            return 0;
         }
 
-        return 1 + Math.max(height(atual.left()), height(atual.right()));
+        int count = 0;
+        BNode atual = v;
+
+        if(atual.getEsq() != null){
+            int tam_esq = height(atual.getEsq());
+
+            if(count < tam_esq){
+                count = tam_esq;
+            }
+        }
+
+        if(atual.getDir() != null){
+            int tam_dir = height(atual.getDir());
+
+            if(count < tam_dir){
+                count = tam_dir;
+            }
+        }
+
+        return count + 1;
     }
+
+
 }
